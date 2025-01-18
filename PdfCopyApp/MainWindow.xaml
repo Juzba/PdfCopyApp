@@ -29,7 +29,7 @@
         <Button x:Name="fileOpen" Content="OpenFile" HorizontalAlignment="Left" Height="68" Margin="43,172,0,0" VerticalAlignment="Top" Width="169" FontSize="24" Click="Button_OpenFile" Background="#FFE6CB4F" Grid.Column="1"/>
         <TextBox x:Name="TextBoxFilePath" HorizontalAlignment="Left" Height="32" Margin="459,78,0,0" TextWrapping="Wrap" Text="Vyber soubor !" VerticalAlignment="Top" Width="507" FontSize="20" Grid.ColumnSpan="2"/>
         <TextBox x:Name="TextBoxInfo" HorizontalAlignment="Left" Height="54" Margin="34,78,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="372" FontSize="20"/>
-        <DataGrid x:Name="DataGrid1" HorizontalAlignment="Left" Margin="34,172,0,0" Width="745" d:ItemsSource="{d:SampleData ItemCount=5}" FontSize="20" Grid.ColumnSpan="2" MouseLeftButtonUp="DataGrid_MouseLeftButtonUp" IsReadOnly="True" SelectionMode="Single" Height="580" VerticalAlignment="Top" AlternatingRowBackground="#FFFBEFEF" AlternationCount="3" MinColumnWidth="0"/>
+        <DataGrid x:Name="DataGrid1" HorizontalAlignment="Left" Margin="34,172,0,0" Width="745" d:ItemsSource="{d:SampleData ItemCount=5}" FontSize="20" Grid.ColumnSpan="2" MouseLeftButtonUp="DataGrid_MouseLeftButtonUp" IsReadOnly="True" SelectionMode="Single" Height="580" VerticalAlignment="Top" AlternatingRowBackground="#FFFBEFEF" AlternationCount="3" MinColumnWidth="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <Button x:Name="Button_Top" Grid.Column="1" Content="Unlocked" HorizontalAlignment="Left" Height="71" Margin="43,681,0,0" VerticalAlignment="Top" Width="169" Click="Button_Top_click" FontSize="20" Background="#FF05E8F9">
             <Button.Effect>
                 <DropShadowEffect/>

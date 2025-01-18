@@ -56,9 +56,9 @@ public partial class MainWindow : Window
             + " Pages: "
             + _pageCount;
 
-
+        DataGrid1.ItemsSource = null;
         DataGrid1.ItemsSource = TextFinder.SeznamsList;
-
+        IsMainEnd = true;
     }
 
 
@@ -71,13 +71,26 @@ public partial class MainWindow : Window
         //TextFinder.PositionListSTK.Clear();
         //TextFinder.SeznamsList.Clear();
         //if (_isFileOpen) Main();
+        WindowTest windowTest = new WindowTest();
+        windowTest.Show();
+
+
+        windowTest.TextBoxTesting.Clear();
+
+        for (int i = 0; i < TextFinder._slovaPDF.Count() - 1; i++)
+        {
+            windowTest.TextBoxTesting.AppendText($"{i}) {TextFinder._slovaPDF[i]}\n");
+        }
+
+
+
     }
 
 
 
     private void Button_OpenFile(object sender, RoutedEventArgs e)
     {
-        IsMainEnd = false ;
+        IsMainEnd = false;
 
         OpenFileDialog openFileDialog = new OpenFileDialog();
         openFileDialog.Filter = "PDF files (*.pdf)|*.pdf";
@@ -100,7 +113,6 @@ public partial class MainWindow : Window
 
 
 
-    private int c;
     private void DataGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
         if (IsMainEnd)
