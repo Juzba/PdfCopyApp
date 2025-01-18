@@ -19,14 +19,18 @@ public partial class MainWindow : Window
     private string _filePath;
     private bool _isFileOpen;
     private int _pageCount = 1;
-    private int _pageIndex = 0;
     private string _HlavniPDF;
     private bool IsMainEnd = false;
 
 
+
+
     public MainWindow()
     {
+
         InitializeComponent();
+
+        button_test.Visibility = Visibility.Hidden;  // testovaci tlacitko
     }
 
     private void Main()
@@ -38,17 +42,15 @@ public partial class MainWindow : Window
         _pageCount = pdfDoc.GetNumberOfPages();
 
         for (int i = 1; i < _pageCount; i++)
-        {
             _HlavniPDF = PdfTextExtractor.GetTextFromPage(pdfDoc.GetPage(i), strategy);
-        }
 
 
 
-        TextFinder.Main(_HlavniPDF);
+        TextFinder.MainTF(_HlavniPDF);
 
 
 
-
+        TextBox_Nadpis.Text = TextFinder.Nadpis;
         TextBoxInfo.Text = "Count H: "
             + TextFinder.PositionsList.Count
             + " STK: "
@@ -56,21 +58,20 @@ public partial class MainWindow : Window
             + " Pages: "
             + _pageCount;
 
+
         DataGrid1.ItemsSource = null;
         DataGrid1.ItemsSource = TextFinder.SeznamsList;
+
+
         IsMainEnd = true;
     }
 
 
 
 
-
-    private void Button_Start(object sender, RoutedEventArgs e)
+    // Testovaci okno
+    private void Button_Test(object sender, RoutedEventArgs e)
     {
-        //TextFinder.PositionsList.Clear();
-        //TextFinder.PositionListSTK.Clear();
-        //TextFinder.SeznamsList.Clear();
-        //if (_isFileOpen) Main();
         WindowTest windowTest = new WindowTest();
         windowTest.Show();
 
@@ -81,16 +82,14 @@ public partial class MainWindow : Window
         {
             windowTest.TextBoxTesting.AppendText($"{i}) {TextFinder._slovaPDF[i]}\n");
         }
-
-
-
     }
 
 
-
+    // Otevre soubor PDF
     private void Button_OpenFile(object sender, RoutedEventArgs e)
     {
         IsMainEnd = false;
+
 
         OpenFileDialog openFileDialog = new OpenFileDialog();
         openFileDialog.Filter = "PDF files (*.pdf)|*.pdf";
@@ -108,31 +107,28 @@ public partial class MainWindow : Window
         TextFinder.PositionListSTK.Clear();
         TextFinder.SeznamsList.Clear();
         if (_isFileOpen) Main();
-
     }
 
 
 
     private void DataGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        if (IsMainEnd)
+
+        if (IsMainEnd && DataGrid1.SelectedCells.Count > 0)
         {
-
-            int rowIndex = DataGrid1.SelectedIndex;
-            var row = (DataGridRow)DataGrid1.ItemContainerGenerator.ContainerFromIndex(rowIndex);
-
-            int columnIndex = DataGrid1.CurrentColumn.DisplayIndex;
-            var cell = DataGrid1.Columns[columnIndex].GetCellContent(row).Parent as DataGridCell;
-
-            string cellValue = (cell.Content as TextBlock).Text;
+            var selectedCell = DataGrid1.SelectedCells[0];
 
 
+            if (selectedCell.Column.GetCellContent(selectedCell.Item) != null)
+            {
+                var cellContent = (TextBlock)selectedCell.Column.GetCellContent(selectedCell.Item);
 
-            TextBoxInfo.Clear();
-            TextBoxInfo.Text = $"X: {rowIndex}  Y: {columnIndex} \nCopy: {cellValue}";
+                string? cellValue = cellContent?.Text;
+                TextBoxInfo.Clear();
+                TextBoxInfo.Text = $"Copy: {cellValue}";
 
-            Clipboard.SetText(cellValue);
-
+                Clipboard.SetText(cellValue);  // Copiruje item do pameti pc
+            }
         }
     }
 
@@ -145,7 +141,7 @@ public partial class MainWindow : Window
         if (this.Topmost)
         {
             this.Topmost = false;
-            Button_Top.Background = new SolidColorBrush(Colors.AliceBlue);
+            Button_Top.Background = new SolidColorBrush(Colors.LightBlue);
             Button_Top.Content = "Unlocked";
         }
 
@@ -155,9 +151,7 @@ public partial class MainWindow : Window
             Button_Top.Background = new SolidColorBrush(Colors.OrangeRed);
             Button_Top.Content = "Locked";
         }
-
-
     }
 
-
+ 
 }
